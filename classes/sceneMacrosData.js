@@ -13,6 +13,25 @@ export default class SceneMacrosData {
         }
     }
 
+    static async flagsAddition(scene, flags, data) {
+        if (flags.includes(data)) {
+            ui.notifications.warn(game.i18n.localize("SCENE_MACROS.feedback.macro-already-linked"))
+        } else {
+            flags.push(data)
+            await scene.setFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS, flags)
+        }
+    }
+
+    static async flagsSubtraction(scene, flags, data) {
+        if (flags.includes(data)) {
+            flags.splice(flags.indexOf(data))
+            await scene.setFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS, flags)
+        } else {
+            ui.notifications.warn(game.i18n.localize("SCENE_MACROS.feedback.macro-not-linked"))
+        }
+
+    }
+
     static getLinkedMacros(macroIdArr) {
         return game.macros.filter(macro => macroIdArr.includes(macro.id))
     }
@@ -32,7 +51,7 @@ export default class SceneMacrosData {
         return scene.getFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS)
     }
 
-    static async writeFlags(id, data) {
+    static writeFlags(id, data, addition) {
         // write data to scene flags
         const scene = this.getScene(id)
         const flags = this.getSceneFlags(scene._id) ? [...this.getSceneFlags(scene._id)] : []
@@ -40,12 +59,7 @@ export default class SceneMacrosData {
         // regex test data
         const alphanumerics = new RegExp("^[A-Za-z0-9.]+$")
         if (alphanumerics.test(data)) {
-            if (flags.includes(data)) {
-                ui.notifications.warn(game.i18n.localize("SCENE_MACROS.feedback.macro-already-linked"))
-            } else {
-                flags.push(data)
-                await scene.setFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS, flags)
-            }
+            addition ? this.flagsAddition(scene, flags, data) : this.flagsSubtraction(scene, flags, data)
         } else {
             ui.notifications.error(game.i18n.localize("SCENE_MACROS.feedback.invalid-id"))
         }

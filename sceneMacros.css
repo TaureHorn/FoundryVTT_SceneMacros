@@ -3,21 +3,68 @@
     --sceneMacroGrey: #222;
     --sceneMacroLight: #ccc;
     --sceneMacroHi: #fff;
+    --sceneMacroRadius: 0.25em;
 }
+
+.browserColumnSpread {
+    flex-direction: column;
+}
+
+.browserColumnSpread,
 .browserFlexSpread {
-    align-items: center;
     display: flex;
     justify-content: space-between;
 }
 
-.macrosBrowser {
-    border: 2px solid var(--sceneMacroGrey);
-    height: 15vh;
-    width: 10vw;
+.browserFlexSpread {
+    align-items: center;
+}
+
+.browserMacro {
+    border: 1px solid var(--sceneMacroDark)
+}
+
+.browserMacro:hover {
+    border: 1px dotted var(--sceneMacroLight);
+    border-radius: var(--sceneMacroRadius);
+}
+
+.browserMacro p,
+.browserMacro i {
+    color: var(--sceneMacroLight);
+}
+
+.browserMacro i {
+    padding-left: 3px;
+}
+
+.browserMacroHeader {
+    color: var(--sceneMacroHi);
+    font-weight: bold;
+}
+
+#browserMacros {
+    max-height: 80%;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .macrosBrowser,
-.macrosBrowser .window-content {
+.sceneMacrosDialog {
+    border: 2px solid var(--sceneMacroGrey);
+    border-radius: var(--sceneMacroRadius);
+}
+
+.macrosBrowser {
+    height: 25vh;
+    width: 12vw;
+
+}
+
+.macrosBrowser,
+.macrosBrowser .window-content,
+.sceneMacrosDialog,
+.sceneMacrosDialog .window-content {
     background-color: var(--sceneMacroDark);
     background-image: none;
     border-radius: 0.5em;
@@ -31,5 +78,37 @@
 
 .macroInteract {
     cursor: pointer;
-    font-size: 125%;
+    font-size: 120%;
+}
+
+#linkMacro input[type="text"] {
+    border-radius: var(--sceneMacroRadius) 0 0 var(--sceneMacroRadius);
+    height: unset;
+}
+
+#linkMacro input[type="text"],
+.sceneMacrosDialog input[type="text"],
+.macroSubmit,
+.sceneMacrosDialog .dialog-button {
+    border: 1px solid #666;
+    color: var(--sceneMacroLight);
+    line-height: 2em;
+}
+
+.macroSubmit {
+    border-radius: 0 var(--sceneMacroRadius) var(--sceneMacroRadius) 0;
+    margin: 0;
+}
+
+.macroSubmit:hover,
+.sceneMacrosDialog .dialog-button:hover {
+    background-color: var(--sceneMacroLight);
+    color: var(--sceneMacroDark);
+}
+
+.macroSubmit:active,
+.sceneMacrosDialog .dialog-button:active {
+    background-color: var(--sceneMacroHi);
+    border: 1px dotted var(--sceneMacroHi);
+    color: var(--sceneMacroDark);
 }

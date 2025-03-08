@@ -3,17 +3,22 @@
         "feedback": {
             "invalid-id": "Macro id is invalid",
             "macro-already-linked": "That macro is already linked to this scene",
+            "macro-not-linked": "That macro is not linked to this scene",
             "scene-not-found": "A scene with that id was not found"
         },
-        "handlebars": {
-            "submit": "Submit"
-        },
         "macro-browser": {
+            "close": "Close",
+            "comment": "Add / edit a comment about the macro",
+            "comment-short": "Comment",
             "edit": "Edit macro",
             "execute": "Execute macro",
             "invalid-uuid": "A macro with that uuid was not found",
+            "macro-comment-dialog": "Macro comment dialog",
             "open-browser": "Browse Scene Macros",
-            "title": "Scene Macros Browser"
+            "submit": "Submit",
+            "switch-error": "encountered an error: incorrect data action",
+            "title": "Scene Macros Browser",
+            "unlink": "Unlink macro from scene"
         },
         "singles": {
             "macro": "macro",
