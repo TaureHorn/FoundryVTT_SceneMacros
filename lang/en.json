@@ -1,0 +1,23 @@
+{
+    "SCENE_MACROS": {
+        "feedback": {
+            "invalid-id": "Macro id is invalid",
+            "macro-already-linked": "That macro is already linked to this scene",
+            "scene-not-found": "A scene with that id was not found"
+        },
+        "handlebars": {
+            "submit": "Submit"
+        },
+        "macro-browser": {
+            "edit": "Edit macro",
+            "execute": "Execute macro",
+            "invalid-uuid": "A macro with that uuid was not found",
+            "open-browser": "Browse Scene Macros",
+            "title": "Scene Macros Browser"
+        },
+        "singles": {
+            "macro": "macro",
+            "scene": "scene"
+        }
+    }
+}

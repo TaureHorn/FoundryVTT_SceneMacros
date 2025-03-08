@@ -1,0 +1,35 @@
+:root {
+    --sceneMacroDark: #000;
+    --sceneMacroGrey: #222;
+    --sceneMacroLight: #ccc;
+    --sceneMacroHi: #fff;
+}
+.browserFlexSpread {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.macrosBrowser {
+    border: 2px solid var(--sceneMacroGrey);
+    height: 15vh;
+    width: 10vw;
+}
+
+.macrosBrowser,
+.macrosBrowser .window-content {
+    background-color: var(--sceneMacroDark);
+    background-image: none;
+    border-radius: 0.5em;
+    color: var(--sceneMacroLight);
+}
+
+.macrosBrowser header {
+    border: none;
+    color: var(--sceneMacroLight);
+}
+
+.macroInteract {
+    cursor: pointer;
+    font-size: 125%;
+}

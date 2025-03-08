@@ -1,0 +1,16 @@
+{{log this}}
+<h2>Scene Macros: {{name}}</h2>
+{{#each linkedMacros}}
+    <div class="browserFlexSpread">
+        <p>{{name}}</p>
+        <div>
+            <i class="fas fa-edit macroInteract" data-action="edit" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.edit"}}"></i>
+            <i class="fas fa-play macroInteract" data-action="execute" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.execute"}}"></i>
+        </div>
+    </div>
+{{/each}}
+<h3>Link macro</h3>
+<form id="addMacro" class="browserFlexSpread">
+    <input id="macroUuidInput" name="macroUuid" type="text" minlength="22" maxlength="22" pattern="^[A-Za-z0-9.]+$" placeholder="Macro.1234567890abcdef" spellcheck="false" />
+    <button type="submit">{{localize "SCENE_MACROS.handlebars.submit"}}</button>
+</form>
