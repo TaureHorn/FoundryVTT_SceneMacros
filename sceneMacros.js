@@ -25,3 +25,12 @@ Hooks.on('ready', function() {
 Hooks.on('getSceneDirectoryEntryContext', function(object, actions) {actions.push(SceneMacrosData.browserMenuItem)})
 Hooks.on('getSceneNavigationContext', function(object, actions) {actions.push(SceneMacrosData.browserMenuItem)})
 
+Handlebars.registerHelper('evenIndex', function(index, options) {
+    // determine if index is odd or even and return boolean for block scoping
+    if (typeof index !== 'number') throw new Error ('Handlebars.evenIndex: arguments[0] index not a number')
+    if (index % 2 === 0) {
+        return options.fn(this)
+    } else { 
+        return options.inverse(this)}
+})
+
