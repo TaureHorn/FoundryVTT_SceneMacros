@@ -22,7 +22,6 @@
 }
 
 .browserMacro {
-    border: 1px solid var(--sceneMacroDark)
 }
 
 .browserMacro:hover {
@@ -57,8 +56,8 @@
 }
 
 .macrosBrowser {
-    height: 25vh;
-    width: 12vw;
+    height: 20vh;
+    width: 25vw;
 
 }
 
@@ -79,11 +78,26 @@
 
 .macroComment {
     color: var(--sceneMacroMid);
-    padding-left: 1em;
+}
+
+.macroContainer {
+    padding: 0.5em;
+}
+
+.macroContainerBackground {
+    background-color: var(--sceneMacroGrey);
+    border: 1px solid var(--sceneMacroGrey)
+}
+
+.macroContainerBlackBackground {
+    border: 1px solid var(--sceneMacroDark)
 }
 
 .macroInteract {
     cursor: pointer;
+}
+
+.macroInteractButton {
     font-size: 120%;
 }
 
@@ -108,13 +122,13 @@
 
 .macroSubmit:hover,
 .sceneMacrosDialog .dialog-button:hover {
-    background-color: var(--sceneMacroLight);
+    background-color: var(--sceneMacroLight) !important;
     color: var(--sceneMacroDark);
 }
 
 .macroSubmit:active,
 .sceneMacrosDialog .dialog-button:active {
-    background-color: var(--sceneMacroHi);
+    background-color: var(--sceneMacroHi) !important;
     border: 1px dotted var(--sceneMacroHi);
     color: var(--sceneMacroDark);
 }

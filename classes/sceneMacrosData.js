@@ -13,25 +13,18 @@ export default class SceneMacrosData {
         }
     }
 
-    static async flagsAddition(scene, flags, data) {
-        if (flags.hasOwnProperty(data)) {
+    static async flagsAddition(scene, flags, id) {
+        if (flags.hasOwnProperty(id)) {
             ui.notifications.warn(game.i18n.localize("SCENE_MACROS.feedback.macro-already-linked"))
         } else {
-            flags[data] = ""
-            console.time('delete')
+            flags[id] = ""
             await scene.setFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS, flags)
-            console.timeEnd('delete')
         }
     }
 
-    static async flagsSubtraction(scene, flags, data) {
-        if (flags.hasOwnProperty(data)) {
-            delete flags[data]
-            console.time('delete')
-            // TODO figure out why the fuck this setFlag returns undefined when the exact same one on line 21 works just fine
-            await scene.setFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS, flags)
-            console.timeEnd('delete')
-            return
+    static async flagsSubtraction(scene, flags, id) {
+        if (flags.hasOwnProperty(id)) {
+            await scene.unsetFlag(SceneMacros.NAME, `${SceneMacros.FLAGS.LINKS}.${id}`)
         } else {
             ui.notifications.warn(game.i18n.localize("SCENE_MACROS.feedback.macro-not-linked"))
         }
@@ -62,15 +55,15 @@ export default class SceneMacrosData {
         return flags ? flags : {}
     }
 
-    static async writeFlags(id, data, addition) {
-        // write data to scene flags
+    static async writeFlags(id, macroId, addition) {
+        // write macroId to scene flags
         const scene = this.getScene(id)
         const flags = this.getSceneFlags(scene._id) ? structuredClone(this.getSceneFlags(scene._id)) : []
 
-        // regex test data
+        // regex test macroId
         const alphanumerics = new RegExp("^[A-Za-z0-9.]+$")
-        if (alphanumerics.test(data)) {
-            return addition ? this.flagsAddition(scene, flags, data) : this.flagsSubtraction(scene, flags, data)
+        if (alphanumerics.test(macroId)) {
+            return addition ? this.flagsAddition(scene, flags, macroId) : this.flagsSubtraction(scene, flags, macroId)
         } else {
             ui.notifications.error(game.i18n.localize("SCENE_MACROS.feedback.invalid-id"))
         }
