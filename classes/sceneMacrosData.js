@@ -1,20 +1,10 @@
 import SceneMacros from "../sceneMacros.js"
-import MacroBrowser from "./macroBrowser.js"
 
 export default class SceneMacrosData {
 
-    static browserMenuItem = {
-        name: "SCENE_MACROS.macro-browser.open-browser",
-        icon: '<i class="fas fa-code"></i>',
-        callback: (html) => {
-            // entryId is the scene id data action in sidebar scene item, sceneId is the scene id data action in the nav bar
-            const id = html.data().entryId ? html.data().entryId : html.data().sceneId
-            new MacroBrowser(id).render(true)
-        }
-    }
-
+    
     static async flagsAddition(scene, flags, id) {
-        if (flags.hasOwnProperty(id)) {
+        if (id in flags) {
             ui.notifications.warn(game.i18n.localize("SCENE_MACROS.feedback.macro-already-linked"))
         } else {
             flags[id] = ""
@@ -23,8 +13,9 @@ export default class SceneMacrosData {
     }
 
     static async flagsSubtraction(scene, flags, id) {
-        if (flags.hasOwnProperty(id)) {
-            await scene.unsetFlag(SceneMacros.NAME, `${SceneMacros.FLAGS.LINKS}.${id}`)
+        if (id in flags) {
+            const idDeletion = { [`-=${id}`]: null }
+            await scene.setFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS, idDeletion)
         } else {
             ui.notifications.warn(game.i18n.localize("SCENE_MACROS.feedback.macro-not-linked"))
         }
@@ -80,4 +71,3 @@ export default class SceneMacrosData {
 
 }
 
-globalThis.SceneMacrosData = SceneMacrosData

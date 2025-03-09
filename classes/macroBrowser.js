@@ -11,7 +11,6 @@ export default class MacroBrowser extends FormApplication {
     static get defaultOptions() {
         const defaults = super.defaultOptions
         const overrides = {
-            classes: ['macrosBrowser', ` macrosBrowser_${this.sceneId}`],
             closeOnSubmit: false,
             resizable: true,
             template: SceneMacros.TEMPLATES.MACRO_BROWSER,
@@ -127,6 +126,8 @@ export default class MacroBrowser extends FormApplication {
     }
 
     render(...args) {
+        this.options.classes.push('macrosBrowser', `macrosBrowser_${this.sceneId}`)
+
         // link app to documents so it re-renders normally
         this.document.apps[this.appId] = this
 
