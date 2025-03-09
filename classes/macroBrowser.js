@@ -22,12 +22,7 @@ export default class MacroBrowser extends FormApplication {
 
     getData() {
         const data = SceneMacrosData.getScene(this.sceneId)
-        const linkedMacros = SceneMacrosData.getLinkedMacros(SceneMacrosData.getSceneFlags(this.sceneId))
-
-        //sort macros alphabetically based on name
-        linkedMacros.sort((a, b) => a.name.localeCompare(b.name))
-
-        data.linkedMacros = linkedMacros
+        data.linkedMacros = SceneMacrosData.getLinkedMacros(SceneMacrosData.getSceneFlags(this.sceneId))
         return data
     }
 
@@ -49,9 +44,8 @@ export default class MacroBrowser extends FormApplication {
         const commentDialog = new Dialog({
             buttons: {
                 comment: {
-                    callback: () => {
-                        console.log('commentMacro make comment')
-                        // TODO implement comment logic
+                    callback: async (html) => {
+                        SceneMacrosData.writeMacroComment(this.sceneId, macro._id, $(html).find('#macroCommentInput')[0].value)
                     },
                     icon: '<i class="fas fa-comment"></i>',
                     label: game.i18n.localize("SCENE_MACROS.macro-browser.comment-short")
@@ -59,7 +53,9 @@ export default class MacroBrowser extends FormApplication {
             },
             content: `
                 <p>Write a comment about the macro <strong>${macro.name}</strong></p>
-                <input id="macroCommentInput" name="macroComment" type="text" minlength="1" maxlength="240" placeholder="${game.i18n.localize("SCENE_MACROS.macro-browser.comment-short")}" required`,
+                <form>
+                    <input id="macroCommentInput" name="macroComment" type="text" minlength="1" maxlength="240" placeholder="${game.i18n.localize("SCENE_MACROS.macro-browser.comment-short")}" required
+                </form>`,
             title: game.i18n.localize("SCENE_MACROS.macro-browser.macro-comment-dialog")
         })
         commentDialog.options.classes.push('sceneMacrosDialog')

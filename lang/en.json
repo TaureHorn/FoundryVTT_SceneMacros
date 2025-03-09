@@ -14,7 +14,7 @@
             "execute": "Execute macro",
             "invalid-uuid": "A macro with that uuid was not found",
             "macro-comment-dialog": "Macro comment dialog",
-            "open-browser": "Browse Scene Macros",
+            "open-browser": "Scene Macros",
             "submit": "Submit",
             "switch-error": "encountered an error: incorrect data action",
             "title": "Scene Macros Browser",
