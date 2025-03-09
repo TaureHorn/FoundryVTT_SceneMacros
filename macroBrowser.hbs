@@ -2,14 +2,17 @@
     <div id="browserMacros">
         <p class="browserMacroHeader">Scene: {{name}}{{#if navName}} / {{navName}}{{/if}}</p>
         {{#each linkedMacros}}
-        <div class="browserFlexSpread browserMacro">
-            <p>{{name}}</p>
-            <div>
-                <i class="fas fa-link-slash macroInteract" data-action="unlink" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.unlink"}}"></i>
-                <i class="fas fa-comment macroInteract" data-action="comment" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.comment"}}"></i>
-                <i class="fas fa-edit macroInteract" data-action="edit" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.edit"}}"></i>
-                <i class="fas fa-play macroInteract" data-action="execute" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.execute"}}"></i>
+        <div class="browserMacro">
+            <div class="browserFlexSpread">
+                <p>{{name}}</p>
+                <div>
+                    <i class="fas fa-link-slash macroInteract" data-action="unlink" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.unlink"}}"></i>
+                    <i class="fas fa-comment macroInteract" data-action="comment" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.comment"}}"></i>
+                    <i class="fas fa-edit macroInteract" data-action="edit" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.edit"}}"></i>
+                    <i class="fas fa-play macroInteract" data-action="execute" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.execute"}}"></i>
+                </div>
             </div>
+            {{#if comment}}<div class="macroComment"><span>└─ {{comment}}</span></div>{{/if}}
         </div>
         {{/each}}
     </div>

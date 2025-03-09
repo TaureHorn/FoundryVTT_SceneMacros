@@ -1,8 +1,9 @@
 :root {
     --sceneMacroDark: #000;
     --sceneMacroGrey: #222;
-    --sceneMacroLight: #ccc;
     --sceneMacroHi: #fff;
+    --sceneMacroLight: #ccc;
+    --sceneMacroMid: #888;
     --sceneMacroRadius: 0.25em;
 }
 
@@ -76,6 +77,11 @@
     color: var(--sceneMacroLight);
 }
 
+.macroComment {
+    color: var(--sceneMacroMid);
+    padding-left: 1em;
+}
+
 .macroInteract {
     cursor: pointer;
     font-size: 120%;
@@ -90,7 +96,7 @@
 .sceneMacrosDialog input[type="text"],
 .macroSubmit,
 .sceneMacrosDialog .dialog-button {
-    border: 1px solid #666;
+    border: 1px solid var(--sceneMacroMid);
     color: var(--sceneMacroLight);
     line-height: 2em;
 }

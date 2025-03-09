@@ -14,26 +14,36 @@ export default class SceneMacrosData {
     }
 
     static async flagsAddition(scene, flags, data) {
-        if (flags.includes(data)) {
+        if (flags.hasOwnProperty(data)) {
             ui.notifications.warn(game.i18n.localize("SCENE_MACROS.feedback.macro-already-linked"))
         } else {
-            flags.push(data)
+            flags[data] = ""
+            console.time('delete')
             await scene.setFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS, flags)
+            console.timeEnd('delete')
         }
     }
 
     static async flagsSubtraction(scene, flags, data) {
-        if (flags.includes(data)) {
-            flags.splice(flags.indexOf(data))
+        if (flags.hasOwnProperty(data)) {
+            delete flags[data]
+            console.time('delete')
+            // TODO figure out why the fuck this setFlag returns undefined when the exact same one on line 21 works just fine
             await scene.setFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS, flags)
+            console.timeEnd('delete')
+            return
         } else {
             ui.notifications.warn(game.i18n.localize("SCENE_MACROS.feedback.macro-not-linked"))
         }
-
     }
 
-    static getLinkedMacros(macroIdArr) {
-        return game.macros.filter(macro => macroIdArr.includes(macro.id))
+    static getLinkedMacros(macroIdObj) {
+        // get macros that match ids linked to scene and sort them alphabetically based on name
+        let data = game.macros.filter(macro => macroIdObj.hasOwnProperty(macro.id)).sort((a, b) => a.name.localeCompare(b.name))
+        for (const key in macroIdObj) {
+            data[data.findIndex(obj => obj._id === key)].comment = macroIdObj[key]
+        }
+        return data
     }
 
     static getScene(id) {
@@ -46,23 +56,35 @@ export default class SceneMacrosData {
     }
 
     static getSceneFlags(id) {
-        // get modules flags from single scene
+        // get modules flags from single scene. if no flags return empty object
         const scene = this.getScene(id)
-        return scene.getFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS)
+        const flags = scene.getFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS)
+        return flags ? flags : {}
     }
 
-    static writeFlags(id, data, addition) {
+    static async writeFlags(id, data, addition) {
         // write data to scene flags
         const scene = this.getScene(id)
-        const flags = this.getSceneFlags(scene._id) ? [...this.getSceneFlags(scene._id)] : []
+        const flags = this.getSceneFlags(scene._id) ? structuredClone(this.getSceneFlags(scene._id)) : []
 
         // regex test data
         const alphanumerics = new RegExp("^[A-Za-z0-9.]+$")
         if (alphanumerics.test(data)) {
-            addition ? this.flagsAddition(scene, flags, data) : this.flagsSubtraction(scene, flags, data)
+            return addition ? this.flagsAddition(scene, flags, data) : this.flagsSubtraction(scene, flags, data)
         } else {
             ui.notifications.error(game.i18n.localize("SCENE_MACROS.feedback.invalid-id"))
         }
     }
 
+    static async writeMacroComment(sceneId, macroId, commentStr) {
+        // write comment to scene flags
+        if (!typeof commentStr === 'String') return
+        const scene = this.getScene(sceneId)
+        const flags = this.getSceneFlags(sceneId)
+        flags[macroId] = commentStr
+        await scene.setFlag(SceneMacros.NAME, SceneMacros.FLAGS.LINKS, flags)
+    }
+
 }
+
+globalThis.SceneMacrosData = SceneMacrosData
