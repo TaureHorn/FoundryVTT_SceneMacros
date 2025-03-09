@@ -58,8 +58,11 @@ export default class MacroBrowser extends FormApplication {
             default: "comment",
             title: game.i18n.localize("SCENE_MACROS.macro-browser.macro-comment-dialog")
         })
-        commentDialog.options.classes.push('sceneMacrosDialog')
-        commentDialog.render(true)
+        commentDialog.options.classes.push('sceneMacrosDialog', `sceneMacrosDialog_${this.sceneId}_${macro._id}`)
+
+        // if app for this macro from this scene is  open bring it to top, if not open it --> only one instance of each macro comment dialog for each scene allowed at once
+        const currentlyOpen = $('body').find(`.sceneMacrosDialog_${this.sceneId}_${macro._id}`)[0]
+        currentlyOpen ? ui.windows[currentlyOpen.dataset.appid].bringToTop() : commentDialog.render(true)
     }
 
     copyToClipboard(text) {
