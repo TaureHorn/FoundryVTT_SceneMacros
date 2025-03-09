@@ -1,7 +1,7 @@
 {
     "id": "sceneMacros",
     "title": "Scene Macros",
-    "version": "0.1",
+    "version": "1.0",
     "compatibility": {
         "minimum": "11",
         "verified": "12.331"
@@ -13,6 +13,7 @@
             "flags": {}
         }
     ],
+    "url": "https://github.com/TaureHorn/FoundryVTT_SceneMacros",
     "description": "Link macros to scenes and browse / execute linked macros from one window.",
     "esmodules": [
         "sceneMacros.js"
@@ -28,5 +29,6 @@
     "styles": [
         "sceneMacros.css"
     ],
-    "url": "https://github.com/TaureHorn/FoundryVTT_SceneMacros"
+    "download": "https://github.com/TaureHorn/FoundryVTT_SceneMacros/releases/download/v1.0/sceneMacros.zip",
+    "manifest": "https://github.com/TaureHorn/FoundryVTT_SceneMacros/releases/latest/download/module.json"
 }
