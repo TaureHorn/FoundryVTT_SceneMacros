@@ -4,6 +4,8 @@ console.log('Scene Macros | initialised')
 
 export default class SceneMacros {
 
+    static DEBUG = false
+
     static NAME = 'sceneMacros'
 
     static FLAGS = {
@@ -17,12 +19,21 @@ export default class SceneMacros {
     static makeBrowserMenuItem(gmStatus) {
         return {
             callback: (html) => {
-                // entryId is the scene id data action in sidebar scene item, sceneId is the scene id data action in the nav bar
-                const id = html.data().entryId ? html.data().entryId : html.data().sceneId
-                const currentlyOpen = $('body').find(`.macrosBrowser_${id}`)[0]
+                // ID = ID OF SCENE
+                const id = (() => {
+                    return game.release.generation >= 13
+                        ? html.dataset.sceneId
+                        : html.data().entryId || html.data().sceneId
+                })()
+                const uiElement = {
+                    window: document.getElementsByClassName(`macrosBrowser_${id}`)
+                }
+                uiElement.currentlyOpen = uiElement.window.length ? true : false
 
-                // if app for this scene open bring it to top, if not open it --> only one instance of each scenes macro browser allowed at once
-                currentlyOpen ? ui.windows[currentlyOpen.dataset.appid].bringToTop() : new MacroBrowser(id).render(true)
+                // IF APP ALREADY OPEN ? BRING TO FRONT : RENDER NEW MACRO_BROWSER WINDOW
+                uiElement.currentlyOpen ?
+                    ui.windows[uiElement.window[0].dataset.appid].bringToTop()
+                    : new MacroBrowser(id).render(true)
             },
             condition: gmStatus,
             icon: '<i class="fas fa-code"></i>',
@@ -31,13 +42,26 @@ export default class SceneMacros {
     }
 }
 
+// debug set hooks
+Hooks.on('init', () => {
+    CONFIG.debug.hooks = SceneMacros.DEBUG
+})
+
 // add menu item to open a scenes macro browser to its context menu
+Hooks.on('getSceneContextOptions', (...args) => {
+    if (game.release.generation < 13) return
+    args[1].push(SceneMacros.makeBrowserMenuItem(game.user.isGM))
+    console.log('Scene Macros | added context menu item in getSceneContextOptions')
+})
+
 Hooks.on('getSceneDirectoryEntryContext', function(object, actions) {
+    if (game.release.generation >= 13) return
     actions.push(SceneMacros.makeBrowserMenuItem(game.user.isGM))
     console.log('Scene Macros | added context menu item in getSceneDirectoryEntryContext')
 })
 
 Hooks.on('getSceneNavigationContext', function(object, actions) {
+    if (game.release.generation >= 13) return
     actions.push(SceneMacros.makeBrowserMenuItem(game.user.isGM))
     console.log('Scene Macros | added context menu item in getSceneNavigationContext')
 })
