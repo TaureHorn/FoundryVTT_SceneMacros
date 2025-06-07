@@ -1,4 +1,4 @@
-import MacroBrowser from "./classes/macroBrowser.js"
+import { MacroBrowser, MacroBroswerV2 } from "./classes/macroBrowser.js"
 
 console.log('Scene Macros | initialised')
 
@@ -30,7 +30,7 @@ export default class SceneMacros {
                 // IF APP ALREADY OPEN ? BRING TO FRONT : RENDER NEW MACRO_BROWSER WINDOW
                 uiElement.currentlyOpen ?
                     ui.windows[uiElement.window[0].dataset.appid].bringToTop()
-                    : new MacroBrowser(id).render(true)
+                    : new MacroBroswerV2(id).render(true)
             },
             condition: gmStatus,
             icon: '<i class="fas fa-code"></i>',

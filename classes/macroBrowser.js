@@ -1,7 +1,8 @@
 import SceneMacros from "../sceneMacros.js"
 import SceneMacrosData from "./sceneMacrosData.js"
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
-export default class MacroBrowser extends FormApplication {
+export class MacroBrowser extends FormApplication {
     constructor(sceneId) {
         super()
         this.sceneId = sceneId
@@ -147,6 +148,57 @@ export default class MacroBrowser extends FormApplication {
             ui.notifications.warn(game.i18n.localize("SCENE_MACROS.macro-browser.invalid-uuid"))
         }
     }
+
+}
+
+export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
+
+    static DEFAULT_OPTIONS = {
+        form: {
+            closeOnSubmit: false,
+            handler: MacroBroswerV2.#onSubmit
+        },
+        id: 'macro-browser_{id}',
+        position: {
+            height: 'auto',
+            width: window.innerWidth * 0.2
+        },
+        tag: 'form',
+        window: {
+            icon: 'fas fa-code',
+            positioned: true,
+            resizable: true,
+            title: "SCENE_MACROS.macro-browser.title",
+        }
+    }
+
+    static PARTS = {
+        form: {
+            template: 'modules/sceneMacros/macroBrowser.hbs'
+        }
+    }
+
+    constructor(sceneId) {
+        super()
+        this.sceneId = sceneId
+        this.scene = SceneMacrosData.getScene(sceneId)
+        this.linkedMacros = SceneMacrosData.getLinkedMacros(SceneMacrosData.getSceneFlags(this.sceneId))
+    }
+
+    get title() {
+        return `${this.scene.name}: ${game.i18n.localize(this.options.window.title)}`
+    }
+
+    _prepareContext(opts) {
+        const data = this.scene
+        data.linkedMacros = this.linkedMacros
+        return data
+    }
+
+    static #onSubmit(...args) {
+        console.log(args)
+    }
+
 
 }
 

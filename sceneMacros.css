@@ -55,11 +55,10 @@
     border-radius: var(--sceneMacroRadius);
 }
 
-.macrosBrowser {
-    height: 20vh;
-    width: 25vw;
-
-}
+/* .macrosBrowser { */
+/*     height: 20vh; */
+/*     width: 25vw; */
+/* } */
 
 .macrosBrowser,
 .macrosBrowser .window-content,
