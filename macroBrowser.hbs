@@ -1,15 +1,15 @@
 <div class="browserColumnSpread">
     <div id="browserMacros">
-        <p class="browserMacroHeader macroInteract" data-action="copy-uuid" data-uuid="{{uuid}}" title="{{localize "SCENE_MACROS.macro-browser.click-to-copy"}}">
+        <p class="browserMacroHeader macroInteract" data-action="copyUuid" data-uuid="{{uuid}}" title="{{localize "SCENE_MACROS.macro-browser.click-to-copy"}}">
             {{localize "SCENE_MACROS.singles.scene"}}: {{name}}{{#if navName}} / {{navName}}{{/if}}
-            <span class="macroComment">{{uuid}}</span>
+            <span class="macroComment" data-action="copyUuid" data-uuid="{{uuid}}">{{uuid}}</span>
         </p>
         <span class="browserMacroHeader">{{localize "SCENE_MACROS.macro-browser.linked-macros"}}</span>
         <div class="macroContainer">
             {{#each linkedMacros}}
             <div class="browserMacro {{#evenIndex @index}}macroContainerBackground{{else}}macroContainerBlackBackground{{/evenIndex}}">
                 <div class="browserFlexSpread">
-                    <p class="macroInteract" data-action="copy-uuid" data-uuid="{{uuid}}" title="{{localize "SCENE_MACROS.macro-browser.click-to-copy"}}">
+                    <p class="macroInteract" data-action="copyUuid" data-uuid="{{uuid}}" title="{{localize "SCENE_MACROS.macro-browser.click-to-copy"}}">
                         {{name}}<span class="macroComment"> {{uuid}}<span>
                     </p>
                     <div>
@@ -26,9 +26,9 @@
     </div>
     <div id="linkMacro">
         <p class="browserMacroHeader">{{localize "SCENE_MACROS.macro-browser.link-macro"}}</p>
-        <form id="addMacro" class="browserFlexSpread">
+        <div id="addMacro" class="browserFlexSpread">
             <input style="flex:6" id="macroUuidInput" name="macroUuid" type="text" minlength="22" maxlength="22" pattern="^[A-Za-z0-9.]+$" placeholder="e.g. Macro.1234567890abcdef" spellcheck="false" />
             <button class="macroSubmit" style="flex:1" type="submit">{{localize "SCENE_MACROS.macro-browser.submit"}}</button>
-        </form>
+        </div>
     </div>
 </div>

@@ -154,9 +154,15 @@ export class MacroBrowser extends FormApplication {
 export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
 
     static DEFAULT_OPTIONS = {
+        actions: {
+            comment: MacroBroswerV2.#comment,
+            copyUuid: MacroBroswerV2.#copyUuid,
+            edit: MacroBroswerV2.#editMacro,
+            execute: MacroBroswerV2.#executeMacro,
+            unlink: MacroBroswerV2.#unlinkMacro
+        },
         form: {
-            closeOnSubmit: false,
-            handler: MacroBroswerV2.#onSubmit
+            handler: MacroBroswerV2.#onSubmit,
         },
         id: 'macro-browser_{id}',
         position: {
@@ -166,7 +172,6 @@ export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
         tag: 'form',
         window: {
             icon: 'fas fa-code',
-            positioned: true,
             resizable: true,
             title: "SCENE_MACROS.macro-browser.title",
         }
@@ -175,7 +180,7 @@ export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
     static PARTS = {
         form: {
             template: 'modules/sceneMacros/macroBrowser.hbs'
-        }
+        },
     }
 
     constructor(sceneId) {
@@ -195,8 +200,72 @@ export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
         return data
     }
 
-    static #onSubmit(...args) {
-        console.log(args)
+    _onRender(context, options) {
+    }
+
+    static #comment(event, target, str) {
+        console.log('#comment', event, target, str)
+    }
+
+    static #copyUuid(event, target) {
+        const text = target.dataset.uuid
+        if (typeof text === 'string') {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text)
+                } else {
+                    // fallback in case not in HTTPS - the jankiest method to copy text know to man, like wtf
+                    const copyText = document.createElement('textarea')
+                    copyText.value = text
+                    copyText.style.position = 'absolute';
+                    copyText.style.left = '-99999px'
+
+                    document.body.prepend(copyText)
+                    copyText.select()
+
+                    try {
+                        document.execCommand('copy')
+                    } catch (err) {
+                        console.error(err)
+                    } finally {
+                        copyText.remove()
+                    }
+                }
+                ui.notifications.info(game.i18n.localize("SCENE_MACROS.macro-browser.copied"))
+            } catch (err) {
+                console.error(err)
+                ui.notifications.error(game.i18n.localize("SCENE_MACROS.macro-browser.copy-failed"))
+            }
+        } else {
+            ui.notifications.error(game.i18n.localize("SCENE_MACROS.macro-browser.copy-failed"))
+            console.error('TypeError: element to copy is not a string', text, this)
+        }
+    }
+
+    static #editMacro(event, target) {
+        const macro = game.macros.get(target.dataset.macroId)
+        if (!macro) return
+        macro.sheet.render(true)
+    }
+
+    static #executeMacro(event, target) {
+        const macro = game.macros.get(target.dataset.macroId)
+        if (!macro) return
+        macro.execute()
+    }
+
+    static #unlinkMacro(event, target) {
+        const macro = game.macros.get(target.dataset.macroId)
+        if (!macro) return
+        SceneMacrosData.writeFlags(this.sceneId, target.dataset.macroId, false)
+    }
+
+    static #onSubmit(event, form, formData) {
+        // GET MACRO ID FROM FORM, IF CORRESPOND TO MACRO IN DB ADD TO SCENE FLAGS
+        const macroId = formData.object.macroUuid.split('.')[1]
+        return game.macros.get(macroId)
+            ? SceneMacrosData.writeFlags(this.sceneId, macroId, true)
+            : ui.notifications.warn(game.i18n.localize("SCENE_MACROS.macro-browser.invalid-uuid"))
     }
 
 
