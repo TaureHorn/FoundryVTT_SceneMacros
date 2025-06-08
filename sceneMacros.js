@@ -1,19 +1,13 @@
-import MacroBroswerV2 from "./classes/macroBrowser.js"
+import MacroBrowserV2 from "./classes/macroBrowser.js"
 
 console.log('Scene Macros | initialised')
 
 export default class SceneMacros {
 
-    static DEBUG = false
-
     static NAME = 'sceneMacros'
 
     static FLAGS = {
         LINKS: 'linkedMacros'
-    }
-
-    static TEMPLATES = {
-        MACRO_BROWSER: `/modules/${this.NAME}/macroBrowser.hbs`
     }
 
     static makeBrowserMenuItem(gmStatus) {
@@ -30,7 +24,7 @@ export default class SceneMacros {
                 // IF APP ALREADY OPEN ? BRING TO FRONT : RENDER NEW MACRO_BROWSER WINDOW
                 uiElement.currentlyOpen
                     ? foundry.applications.instances.get(uiElement.window[0].id).bringToFront()
-                    : new MacroBroswerV2(id).render(true)
+                    : new MacroBrowserV2(id).render(true)
             },
             condition: gmStatus,
             icon: '<i class="fas fa-code"></i>',
@@ -38,16 +32,6 @@ export default class SceneMacros {
         }
     }
 }
-
-Handlebars.registerHelper('evenIndex', function(index, options) {
-    // determine if index is odd or even and return boolean for block scoping
-    if (typeof index !== 'number') throw new Error('Handlebars.evenIndex: arguments[0] index not a number')
-    if (index % 2 === 0) {
-        return options.fn(this)
-    } else {
-        return options.inverse(this)
-    }
-})
 
 // ADD MENU ITEM TO OPEN A SCENES MACRO BROWSER TO ITS CONTEXT MENU
 // V13+ HOOK
