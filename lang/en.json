@@ -18,7 +18,7 @@
             "invalid-uuid": "A macro with that uuid was not found",
             "link-macro": "link macro",
             "linked-macros": "linked macros",
-            "macro-comment-dialog": "Macro comment dialog",
+            "macro-comment-dialog": "make comment",
             "open-browser": "Scene Macros",
             "submit": "Submit",
             "switch-error": "encountered an error: incorrect data action",
