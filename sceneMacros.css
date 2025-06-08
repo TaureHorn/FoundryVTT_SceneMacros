@@ -1,133 +1,29 @@
-:root {
-    --sceneMacroDark: #000;
-    --sceneMacroGrey: #222;
-    --sceneMacroHi: #fff;
-    --sceneMacroLight: #ccc;
-    --sceneMacroMid: #888;
-    --sceneMacroRadius: 0.25em;
+#macroSubmitButton {
+    flex: 1;
 }
 
-.browserColumnSpread {
-    flex-direction: column;
+#macroUuidInput {
+    flex: 10
 }
 
-.browserColumnSpread,
-.browserFlexSpread {
-    display: flex;
-    justify-content: space-between;
+.sceneMacrosComment {
+    margin: 1% 0;
 }
 
-.browserFlexSpread {
+.sceneMacrosContainer {
+    border-bottom-color: var(--color-fieldset-border);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.sceneMacrosCopy {
+    cursor: copy;
+}
+
+.sceneMacrosFlex {
     align-items: center;
+    display: flex;
+    gap: 5%;
+    justify-content: flex-end;
 }
 
-.browserMacro {
-}
-
-.browserMacro:hover {
-    border: 1px dotted var(--sceneMacroLight);
-    border-radius: var(--sceneMacroRadius);
-}
-
-.browserMacro p,
-.browserMacro i {
-    color: var(--sceneMacroLight);
-}
-
-.browserMacro i {
-    padding-left: 3px;
-}
-
-.browserMacroHeader {
-    color: var(--sceneMacroHi);
-    font-weight: bold;
-}
-
-#browserMacros {
-    max-height: 80%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-
-.macrosBrowser,
-.sceneMacrosDialog {
-    border: 2px solid var(--sceneMacroGrey);
-    border-radius: var(--sceneMacroRadius);
-}
-
-/* .macrosBrowser { */
-/*     height: 20vh; */
-/*     width: 25vw; */
-/* } */
-
-.macrosBrowser,
-.macrosBrowser .window-content,
-.sceneMacrosDialog,
-.sceneMacrosDialog .window-content {
-    background-color: var(--sceneMacroDark);
-    background-image: none;
-    border-radius: 0.5em;
-    color: var(--sceneMacroLight);
-}
-
-.macrosBrowser header {
-    border: none;
-    color: var(--sceneMacroLight);
-}
-
-.macroComment {
-    color: var(--sceneMacroMid);
-}
-
-.macroContainer {
-    padding: 0.5em;
-}
-
-.macroContainerBackground {
-    background-color: var(--sceneMacroGrey);
-    border: 1px solid var(--sceneMacroGrey)
-}
-
-.macroContainerBlackBackground {
-    border: 1px solid var(--sceneMacroDark)
-}
-
-.macroInteract {
-    cursor: pointer;
-}
-
-.macroInteractButton {
-    font-size: 120%;
-}
-
-#linkMacro input[type="text"] {
-    border-radius: var(--sceneMacroRadius) 0 0 var(--sceneMacroRadius);
-    height: unset;
-}
-
-#linkMacro input[type="text"],
-.sceneMacrosDialog input[type="text"],
-.macroSubmit,
-.sceneMacrosDialog .dialog-button {
-    border: 1px solid var(--sceneMacroMid);
-    color: var(--sceneMacroLight);
-    line-height: 2em;
-}
-
-.macroSubmit {
-    border-radius: 0 var(--sceneMacroRadius) var(--sceneMacroRadius) 0;
-    margin: 0;
-}
-
-.macroSubmit:hover,
-.sceneMacrosDialog .dialog-button:hover {
-    background-color: var(--sceneMacroLight) !important;
-    color: var(--sceneMacroDark);
-}
-
-.macroSubmit:active,
-.sceneMacrosDialog .dialog-button:active {
-    background-color: var(--sceneMacroHi) !important;
-    border: 1px dotted var(--sceneMacroHi);
-    color: var(--sceneMacroDark);
-}

@@ -13,11 +13,12 @@
             "click-to-copy": "left click to copy uuid to clipboard",
             "copied": "Copied macro uuid to clipboard",
             "copy-failed": "Copying macro uuid to clipboard failed",
+            "copy-scene": "Copy Scene UUID",
             "edit": "Edit macro",
             "execute": "Execute macro",
             "invalid-uuid": "A macro with that uuid was not found",
-            "link-macro": "link macro",
-            "linked-macros": "linked macros",
+            "link-macro": "Link macro",
+            "linked-macros": "Linked macros",
             "macro-comment-dialog": "make comment",
             "open-browser": "Scene Macros",
             "submit": "Submit",
@@ -26,6 +27,7 @@
             "unlink": "Unlink macro from scene"
         },
         "singles": {
+            "enter-uuid": "Enter UUID",
             "macro": "macro",
             "scene": "scene"
         }

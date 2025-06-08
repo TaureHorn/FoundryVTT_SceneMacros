@@ -11,6 +11,7 @@ export default class MacroBroswerV2 extends HandlebarsApplicationMixin(Applicati
             execute: MacroBroswerV2.#executeMacro,
             unlink: MacroBroswerV2.#unlinkMacro
         },
+        classes: ['standard-form'],
         form: {
             handler: MacroBroswerV2.#onSubmit,
         },
@@ -22,7 +23,7 @@ export default class MacroBroswerV2 extends HandlebarsApplicationMixin(Applicati
         tag: 'form',
         window: {
             icon: 'fas fa-code',
-            resizable: true,
+            resizable: false,
             title: "SCENE_MACROS.macro-browser.title",
         }
     }
@@ -40,7 +41,7 @@ export default class MacroBroswerV2 extends HandlebarsApplicationMixin(Applicati
     }
 
     get title() {
-        return `${this.document.name}: ${game.i18n.localize(this.options.window.title)}`
+        return `${game.i18n.localize(this.options.window.title)}: ${this.document.name}`
     }
 
     _prepareContext(opts) {

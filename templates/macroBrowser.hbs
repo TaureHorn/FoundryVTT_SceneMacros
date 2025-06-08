@@ -1,37 +1,46 @@
-<div class="browserColumnSpread">
-    <div id="browserMacros">
-        <p class="browserMacroHeader macroInteract" data-action="copyUuid" data-uuid="{{uuid}}" title="{{localize "SCENE_MACROS.macro-browser.click-to-copy"}}">
-            {{localize "SCENE_MACROS.singles.scene"}}: {{name}}{{#if navName}} / {{navName}}{{/if}}
-            <span class="macroComment" data-action="copyUuid" data-uuid="{{uuid}}">{{uuid}}</span>
-        </p>
-        <span class="browserMacroHeader">{{localize "SCENE_MACROS.macro-browser.linked-macros"}}</span>
-        <div class="macroContainer">
-            {{#each linkedMacros}}
-            <div class="browserMacro {{#evenIndex @index}}macroContainerBackground{{else}}macroContainerBlackBackground{{/evenIndex}}">
-                <div class="browserFlexSpread">
-                    <p class="macroInteract" data-action="copyUuid" data-uuid="{{uuid}}" title="{{localize "SCENE_MACROS.macro-browser.click-to-copy"}}">
-                        {{name}}<span class="macroComment"> {{uuid}}<span>
-                    </p>
-                    <div>
-                        <i class="fas fa-link-slash macroInteract macroInteractButton" data-action="unlink" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.unlink"}}"></i>
-                        <i class="fas fa-comment macroInteract macroInteractButton" data-action="comment" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.comment"}}"></i>
-                        <i class="fas fa-edit macroInteract macroInteractButton" data-action="edit" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.edit"}}"></i>
-                        <i class="fas fa-play macroInteract macroInteractButton" data-action="execute" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.execute"}}"></i>
-                    </div>
+<div>
+    {{#if linkedMacros.length}}
+    <fieldset>
+    {{#each linkedMacros}}
+    <div class="{{#unless @last}} sceneMacrosContainer {{/unless}}">
+            <div class="form-group">
+                <label>{{name}}</label>
+                <div>
+                    <span class="hint sceneMacrosCopy" data-action="copyUuid" data-uuid="{{uuid}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.click-to-copy"}}">{{uuid}}</span>
                 </div>
-                <span id="{{../uuid}}_macroComment_{{_id}}" style="display: block; font-style: italic" class="macroComment" data-action="comment" data-macro-id="{{_id}}">{{#if comment}} {{comment}} {{else}} ... {{/if}}</span>
-                <div name="addMacroComment">
-                    <input style="display: none;" id="{{../uuid}}_macroCommentInput_{{_id}}" name="macroCommentInput_{{_id}}" for="addMacroComment" type="text" minlength="1" maxlength="256" value="{{comment}}" placeholder="..." onfocus="this.value = this.value" spellcheck="false" />
+                <div class="sceneMacrosFlex">
+
+                    <button class="icon fas fa-link-slash" type="button" data-action="unlink" data-macro-id="{{_id}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.unlink"}}"> </button>
+
+                    <button class="icon fas fa-comment" type="button" data-action="comment" data-macro-id="{{_id}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.comment"}}"> </button>
+
+                    <button class="icon fas fa-edit" type="button" data-action="edit" data-macro-id="{{_id}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.edit"}}"> </button>
+
+                    <button class="icon fas fa-play" type="button" data-action="execute" data-macro-id="{{_id}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.execute"}}"> </button>
+
                 </div>
             </div>
-            {{/each}}
+            <div>
+                <p style="display: block" class="hint sceneMacrosComment" id="{{../uuid}}_macroComment_{{_id}}" data-action="comment" data-macro-id="{{_id}}">{{#if comment}} {{comment}} {{else}} ... {{/if}}</p>
+                <input style="display: none;" id="{{../uuid}}_macroCommentInput_{{_id}}" name="macroCommentInput_{{_id}}" for="addMacroComment" type="text" minlength="1" maxlength="256" value="{{comment}}" placeholder="..." onfocus="this.value = this.value" spellcheck="false" />
+            </div>
         </div>
-    </div>
-    <div id="linkMacro">
-        <p class="browserMacroHeader">{{localize "SCENE_MACROS.macro-browser.link-macro"}}</p>
-        <div id="addMacro" class="browserFlexSpread" name="addMacro">
-            <input style="flex:6" id="macroUuidInput" name="macroUuid" for="addMacro" type="text" minlength="22" maxlength="22" pattern="^[A-Za-z0-9.]+$" placeholder="e.g. Macro.1234567890abcdef" spellcheck="false" />
-            <button class="macroSubmit" style="flex:1" type="submit">{{localize "SCENE_MACROS.macro-browser.submit"}}</button>
+    {{/each}}
+    </fieldset>
+    {{/if}}
+
+    <br />
+
+    <fieldset id="linkMacro">
+        <legend>{{localize "SCENE_MACROS.macro-browser.link-macro"}}</legend>
+        <div class="form-group">
+            <label>{{localize "SCENE_MACROS.singles.macro"}}</label>
+            <input id="macroUuidInput" name="macroUuid" for="addMacro" type="text" minlength="22" maxlength="22" pattern="^[A-Za-z0-9.]+$" placeholder="{{localize "SCENE_MACROS.singles.enter-uuid"}}" spellcheck="false" />
+            <button id="macroSubmitButton" type="submit">
+                <i class="fas fa-file-plus"></i>
+            </button>
+
         </div>
-    </div>
+
+    </fieldset>
 </div>
