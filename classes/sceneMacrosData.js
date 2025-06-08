@@ -34,7 +34,7 @@ export default class SceneMacrosData {
         // get single scene
         const scene = game.scenes.get(id)
         if (!scene) {
-            ui.notifications.error(game.i18n.localize("SCENE_MACROS.feedback.scene-not-found"))
+            return ui.notifications.error(game.i18n.localize("SCENE_MACROS.feedback.scene-not-found"))
         }
         return scene
     }

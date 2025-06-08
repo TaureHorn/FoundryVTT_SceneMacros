@@ -1,0 +1,46 @@
+<div>
+    {{#if linkedMacros.length}}
+    <fieldset>
+    {{#each linkedMacros}}
+    <div class="{{#unless @last}} sceneMacrosContainer {{/unless}}">
+            <div class="form-group">
+                <label>{{name}}</label>
+                <div>
+                    <span class="hint sceneMacrosCopy" data-action="copyUuid" data-uuid="{{uuid}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.click-to-copy"}}">{{uuid}}</span>
+                </div>
+                <div class="sceneMacrosFlex">
+
+                    <button class="icon fas fa-link-slash" type="button" data-action="unlink" data-macro-id="{{_id}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.unlink"}}"> </button>
+
+                    <button class="icon fas fa-comment" type="button" data-action="comment" data-macro-id="{{_id}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.comment"}}"> </button>
+
+                    <button class="icon fas fa-edit" type="button" data-action="edit" data-macro-id="{{_id}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.edit"}}"> </button>
+
+                    <button class="icon fas fa-play" type="button" data-action="execute" data-macro-id="{{_id}}" data-tooltip="{{localize "SCENE_MACROS.macro-browser.execute"}}"> </button>
+
+                </div>
+            </div>
+            <div>
+                <p style="display: block" class="hint sceneMacrosComment" id="{{../uuid}}_macroComment_{{_id}}" data-action="comment" data-macro-id="{{_id}}">{{#if comment}} {{comment}} {{else}} ... {{/if}}</p>
+                <input style="display: none;" id="{{../uuid}}_macroCommentInput_{{_id}}" name="macroCommentInput_{{_id}}" for="addMacroComment" type="text" minlength="1" maxlength="256" value="{{comment}}" placeholder="..." onfocus="this.value = this.value" spellcheck="false" />
+            </div>
+        </div>
+    {{/each}}
+    </fieldset>
+    {{/if}}
+
+    <br />
+
+    <fieldset id="linkMacro">
+        <legend>{{localize "SCENE_MACROS.macro-browser.link-macro"}}</legend>
+        <div class="form-group">
+            <label>{{localize "SCENE_MACROS.singles.macro"}}</label>
+            <input id="macroUuidInput" name="macroUuid" for="addMacro" type="text" minlength="22" maxlength="22" pattern="^[A-Za-z0-9.]+$" placeholder="{{localize "SCENE_MACROS.singles.enter-uuid"}}" spellcheck="false" />
+            <button id="macroSubmitButton" type="submit">
+                <i class="fas fa-file-plus"></i>
+            </button>
+
+        </div>
+
+    </fieldset>
+</div>

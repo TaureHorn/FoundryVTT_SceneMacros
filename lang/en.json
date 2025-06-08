@@ -7,27 +7,23 @@
             "scene-not-found": "A scene with that id was not found"
         },
         "macro-browser": {
-            "close": "Close",
             "comment": "Add / edit a comment about the macro",
-            "comment-short": "Comment",
             "click-to-copy": "left click to copy uuid to clipboard",
             "copied": "Copied macro uuid to clipboard",
             "copy-failed": "Copying macro uuid to clipboard failed",
+            "copy-scene": "Copy Scene UUID",
             "edit": "Edit macro",
             "execute": "Execute macro",
             "invalid-uuid": "A macro with that uuid was not found",
-            "link-macro": "link macro",
-            "linked-macros": "linked macros",
-            "macro-comment-dialog": "Macro comment dialog",
+            "link-macro": "Link macro",
+            "macro-comment-dialog": "make comment",
             "open-browser": "Scene Macros",
-            "submit": "Submit",
-            "switch-error": "encountered an error: incorrect data action",
             "title": "Scene Macros Browser",
             "unlink": "Unlink macro from scene"
         },
         "singles": {
-            "macro": "macro",
-            "scene": "scene"
+            "enter-uuid": "Enter UUID",
+            "macro": "macro"
         }
     }
 }

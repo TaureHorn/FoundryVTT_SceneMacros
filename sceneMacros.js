@@ -1,4 +1,4 @@
-import MacroBrowser from "./classes/macroBrowser.js"
+import MacroBrowserV2 from "./classes/macroBrowser.js"
 
 console.log('Scene Macros | initialised')
 
@@ -10,19 +10,21 @@ export default class SceneMacros {
         LINKS: 'linkedMacros'
     }
 
-    static TEMPLATES = {
-        MACRO_BROWSER: `/modules/${this.NAME}/macroBrowser.hbs`
-    }
-
     static makeBrowserMenuItem(gmStatus) {
         return {
             callback: (html) => {
-                // entryId is the scene id data action in sidebar scene item, sceneId is the scene id data action in the nav bar
-                const id = html.data().entryId ? html.data().entryId : html.data().sceneId
-                const currentlyOpen = $('body').find(`.macrosBrowser_${id}`)[0]
+                // ID = ID OF SCENE
+                const element = game.release.generation >= 13 ? html : html[0]
+                const id = element.dataset.sceneId || element.dataset.entryId
+                const uiElement = {
+                    window: document.getElementsByClassName(`macrosBrowser_${id}`)
+                }
+                uiElement.currentlyOpen = uiElement.window.length ? true : false
 
-                // if app for this scene open bring it to top, if not open it --> only one instance of each scenes macro browser allowed at once
-                currentlyOpen ? ui.windows[currentlyOpen.dataset.appid].bringToTop() : new MacroBrowser(id).render(true)
+                // IF APP ALREADY OPEN ? BRING TO FRONT : RENDER NEW MACRO_BROWSER WINDOW
+                uiElement.currentlyOpen
+                    ? foundry.applications.instances.get(uiElement.window[0].id).bringToFront()
+                    : new MacroBrowserV2(id).render(true)
             },
             condition: gmStatus,
             icon: '<i class="fas fa-code"></i>',
@@ -31,24 +33,24 @@ export default class SceneMacros {
     }
 }
 
-// add menu item to open a scenes macro browser to its context menu
+// ADD MENU ITEM TO OPEN A SCENES MACRO BROWSER TO ITS CONTEXT MENU
+// V13+ HOOK
+Hooks.on('getSceneContextOptions', (application, element, context, options) => {
+    if (game.release.generation < 13) return
+    element.push(SceneMacros.makeBrowserMenuItem(game.user.isGM))
+    console.log('Scene Macros | added context menu item in getSceneContextOptions')
+})
+
+// V12 AND OLDER HOOKS
 Hooks.on('getSceneDirectoryEntryContext', function(object, actions) {
+    if (game.release.generation >= 13) return
     actions.push(SceneMacros.makeBrowserMenuItem(game.user.isGM))
     console.log('Scene Macros | added context menu item in getSceneDirectoryEntryContext')
 })
 
 Hooks.on('getSceneNavigationContext', function(object, actions) {
+    if (game.release.generation >= 13) return
     actions.push(SceneMacros.makeBrowserMenuItem(game.user.isGM))
     console.log('Scene Macros | added context menu item in getSceneNavigationContext')
-})
-
-Handlebars.registerHelper('evenIndex', function(index, options) {
-    // determine if index is odd or even and return boolean for block scoping
-    if (typeof index !== 'number') throw new Error('Handlebars.evenIndex: arguments[0] index not a number')
-    if (index % 2 === 0) {
-        return options.fn(this)
-    } else {
-        return options.inverse(this)
-    }
 })
 
