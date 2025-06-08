@@ -28,8 +28,8 @@ export default class SceneMacros {
                 uiElement.currentlyOpen = uiElement.window.length ? true : false
 
                 // IF APP ALREADY OPEN ? BRING TO FRONT : RENDER NEW MACRO_BROWSER WINDOW
-                uiElement.currentlyOpen ?
-                    ui.windows[uiElement.window[0].dataset.appid].bringToTop()
+                uiElement.currentlyOpen
+                    ? foundry.applications.instances.get(uiElement.window[0].id).bringToFront()
                     : new MacroBroswerV2(id).render(true)
             },
             condition: gmStatus,

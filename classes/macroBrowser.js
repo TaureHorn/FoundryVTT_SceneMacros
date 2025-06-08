@@ -194,6 +194,8 @@ export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     _prepareContext(opts) {
+        this.options.classes.push(`macrosBrowser_${this.sceneId}`)
+
         const data = this.document
         data.linkedMacros = SceneMacrosData.getLinkedMacros(SceneMacrosData.getSceneFlags(this.sceneId))
         return data
@@ -270,7 +272,6 @@ export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
     static #onSubmit(event, form, formData) {
         // GET MACRO ID FROM FORM, IF CORRESPOND TO MACRO IN DB ADD TO SCENE FLAGS
         const macroId = formData.object.macroUuid.split('.')[1]
-        console.log('#onSubmit this', this)
         game.macros.get(macroId)
             ? SceneMacrosData.writeFlags(this.sceneId, macroId, true)
             : ui.notifications.warn(game.i18n.localize("SCENE_MACROS.macro-browser.invalid-uuid"))
