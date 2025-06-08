@@ -61,7 +61,7 @@ export class MacroBrowser extends FormApplication {
         })
         commentDialog.options.classes.push('sceneMacrosDialog', `sceneMacrosDialog_${this.sceneId}_${macro._id}`)
 
-        // if app for this macro from this scene is  open bring it to top, if not open it --> only one instance of each macro comment dialog for each scene allowed at once
+        // if app for this macro from this document is  open bring it to top, if not open it --> only one instance of each macro comment dialog for each document allowed at once
         const currentlyOpen = $('body').find(`.sceneMacrosDialog_${this.sceneId}_${macro._id}`)[0]
         currentlyOpen ? ui.windows[currentlyOpen.dataset.appid].bringToTop() : commentDialog.render(true)
     }
@@ -186,21 +186,28 @@ export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
     constructor(sceneId) {
         super()
         this.sceneId = sceneId
-        this.scene = SceneMacrosData.getScene(sceneId)
-        this.linkedMacros = SceneMacrosData.getLinkedMacros(SceneMacrosData.getSceneFlags(this.sceneId))
+        this.document = SceneMacrosData.getScene(sceneId)
     }
 
     get title() {
-        return `${this.scene.name}: ${game.i18n.localize(this.options.window.title)}`
+        return `${this.document.name}: ${game.i18n.localize(this.options.window.title)}`
     }
 
     _prepareContext(opts) {
-        const data = this.scene
-        data.linkedMacros = this.linkedMacros
+        const data = this.document
+        data.linkedMacros = SceneMacrosData.getLinkedMacros(SceneMacrosData.getSceneFlags(this.sceneId))
         return data
     }
 
-    _onRender(context, options) {
+    // REGISTER APP TO DOCUMENT APPS SO DOCUMENT UPDATES RE-RENDER APP
+    _onFirstRender(context, options) {
+        this.document.apps[this.id] = this
+    }
+    
+    // REMOVE APP FROM DOCUMENT APPS
+    close(...args) {
+        delete this.document.apps[this.id]
+        return super.close(args)
     }
 
     static #comment(event, target, str) {
@@ -263,11 +270,11 @@ export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
     static #onSubmit(event, form, formData) {
         // GET MACRO ID FROM FORM, IF CORRESPOND TO MACRO IN DB ADD TO SCENE FLAGS
         const macroId = formData.object.macroUuid.split('.')[1]
-        return game.macros.get(macroId)
+        console.log('#onSubmit this', this)
+        game.macros.get(macroId)
             ? SceneMacrosData.writeFlags(this.sceneId, macroId, true)
             : ui.notifications.warn(game.i18n.localize("SCENE_MACROS.macro-browser.invalid-uuid"))
     }
-
 
 }
 
