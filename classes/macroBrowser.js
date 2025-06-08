@@ -1,12 +1,11 @@
-import SceneMacros from "../sceneMacros.js"
 import SceneMacrosData from "./sceneMacrosData.js"
-const { ApplicationV2, DialogV2, HandlebarsApplicationMixin } = foundry.applications.api
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
-export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
 
     static DEFAULT_OPTIONS = {
         actions: {
-            comment: MacroBroswerV2.#comment,
+            comment: MacroBroswerV2.comment,
             copyUuid: MacroBroswerV2.#copyUuid,
             edit: MacroBroswerV2.#editMacro,
             execute: MacroBroswerV2.#executeMacro,
@@ -63,52 +62,21 @@ export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
         return super.close(args)
     }
 
-    // OPENS DIALOG TO INPUT COMMENT AND WRITE SENDS COMMENT TO BE WRITTEN BY DATA LAYER
-    static #comment(event, target) {
-        const macro = game.macros.get(target.dataset.macroId)
-        if (!macro) return
-
-        const previousComment = SceneMacrosData.getSceneFlags(this.sceneId)[macro.id]
-        const dialogId = `commentDialog_${this.sceneId}_${macro.id}`
-
-        // MAKE NEW DIALOG TO GET USER COMMENT AND RENDER
-        const commentDialog = new DialogV2({
-            buttons: [
-                {
-                    action: 'makeComment',
-                    callback: async (event, button, dialog) => {
-                        const newComment = button.form.elements.macroComment.value
-                        SceneMacrosData.writeMacroComment(this.sceneId, macro.id, newComment)
-                    },
-                    icon: 'fas fa-comment',
-                    label: game.i18n.localize('SCENE_MACROS.macro-browser.comment-short'),
-                },
-            ],
-            confirmed: false,
-            content: `
-                <div>
-                    <input 
-                        id="macroCommentInput"
-                        name="macroComment" 
-                        type="text" 
-                        minlength="1" 
-                        maxlength="256" 
-                        value="${previousComment}" 
-                        placeholder="${game.i18n.localize("SCENE_MACROS.macro-browser.comment-short")}" 
-                        required
-                    />
-                </div>`,
-            id: dialogId,
-            position: {
-                width: window.innerWidth * 0.2
-            },
-            window: {
-                title: `${game.i18n.localize('SCENE_MACROS.macro-browser.comment-short')}: ${macro.name}`,
-            },
-        })
-        document.getElementById(dialogId)?.length
-            ? foundry.applications.instances.get(dialogId).bringToFront()
-            : commentDialog.render(true)
+    // TOGGLE ELEMENT BETWEEN SPAN AND INPUT FOR A MACRO COMMENT
+    static comment(event, target) {
+        const macroId = target.dataset.macroId
+        if (!macroId) return
+        const [comment, input] = [
+            document.getElementById(`${this.document.uuid}_macroComment_${macroId}`),
+            document.getElementById(`${this.document.uuid}_macroCommentInput_${macroId}`)
+        ]
+        for (const el of [comment, input]) {
+            el.style.display = el.style.display === 'block' ? 'none' : 'block'
+        }
+        if (input.style.display === 'block') {
+            input.focus()
+            input.setSelectionRange(-1, -1)
+        }
     }
 
     // COPIES A UUID TO CLIPBOARD 
@@ -170,11 +138,27 @@ export class MacroBroswerV2 extends HandlebarsApplicationMixin(ApplicationV2) {
 
     // UPDATE
     static #onSubmit(event, form, formData) {
-        // GET MACRO ID FROM FORM, IF CORRESPOND TO MACRO IN DB ADD TO SCENE FLAGS
-        const macroId = formData.object.macroUuid.split('.')[1]
-        game.macros.get(macroId)
-            ? SceneMacrosData.writeFlags(this.sceneId, macroId, true)
-            : ui.notifications.warn(game.i18n.localize("SCENE_MACROS.macro-browser.invalid-uuid"))
+
+        // LOOP THROUGH FORMDATA ENTRIES AND PROCESS
+        const obj = formData.object
+        for (const data in obj) {
+
+            // IF A MACRO ID WAS PROVIDED PUSH TO DATA LAYER TO LINK IT
+            if (data === 'macroUuid' && obj[data]) {
+                const macroId = obj[data].split('.')[1]
+                game.macros.get(macroId)
+                    ? SceneMacrosData.writeFlags(this.sceneId, macroId, true)
+                    : ui.notifications.warn(game.i18n.localize("SCENE_MACROS.macro-browser.invalid-uuid"))
+            }
+
+            // IF MACRO COMMENT DIFFERS FROM ONE STORED IN DB PUSH TO DATA LAYER TO UPDATE IT
+            if (data.includes('macroCommentInput')) {
+                const id = data.split('_')[1]
+                if (obj[data] === SceneMacrosData.getSceneFlags(this.sceneId)[id]) continue
+                SceneMacrosData.writeMacroComment(this.sceneId, id, obj[data])
+            }
+        }
+
     }
 
 }

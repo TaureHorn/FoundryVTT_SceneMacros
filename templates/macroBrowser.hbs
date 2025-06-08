@@ -19,15 +19,18 @@
                         <i class="fas fa-play macroInteract macroInteractButton" data-action="execute" data-macro-id="{{_id}}" title="{{localize "SCENE_MACROS.macro-browser.execute"}}"></i>
                     </div>
                 </div>
-                {{#if comment}}<span>└─ </span><span class="macroComment" style="font-style:italic">{{comment}}</span>{{/if}}
+                <span id="{{../uuid}}_macroComment_{{_id}}" style="display: block; font-style: italic" class="macroComment" data-action="comment" data-macro-id="{{_id}}">{{#if comment}} {{comment}} {{else}} ... {{/if}}</span>
+                <div name="addMacroComment">
+                    <input style="display: none;" id="{{../uuid}}_macroCommentInput_{{_id}}" name="macroCommentInput_{{_id}}" for="addMacroComment" type="text" minlength="1" maxlength="256" value="{{comment}}" placeholder="..." onfocus="this.value = this.value" spellcheck="false" />
+                </div>
             </div>
             {{/each}}
         </div>
     </div>
     <div id="linkMacro">
         <p class="browserMacroHeader">{{localize "SCENE_MACROS.macro-browser.link-macro"}}</p>
-        <div id="addMacro" class="browserFlexSpread">
-            <input style="flex:6" id="macroUuidInput" name="macroUuid" type="text" required minlength="22" maxlength="22" pattern="^[A-Za-z0-9.]+$" placeholder="e.g. Macro.1234567890abcdef" spellcheck="false" />
+        <div id="addMacro" class="browserFlexSpread" name="addMacro">
+            <input style="flex:6" id="macroUuidInput" name="macroUuid" for="addMacro" type="text" minlength="22" maxlength="22" pattern="^[A-Za-z0-9.]+$" placeholder="e.g. Macro.1234567890abcdef" spellcheck="false" />
             <button class="macroSubmit" style="flex:1" type="submit">{{localize "SCENE_MACROS.macro-browser.submit"}}</button>
         </div>
     </div>

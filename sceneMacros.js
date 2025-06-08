@@ -1,4 +1,4 @@
-import { MacroBrowser, MacroBroswerV2 } from "./classes/macroBrowser.js"
+import MacroBroswerV2 from "./classes/macroBrowser.js"
 
 console.log('Scene Macros | initialised')
 
