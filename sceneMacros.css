@@ -16,14 +16,29 @@
     border-bottom-width: 1px;
 }
 
+.sceneMacrosFieldset label {
+    flex: 4 !important;
+    line-height: 1 !important;
+}
+
 .sceneMacrosCopy {
     cursor: copy;
+}
+
+.sceneMacrosFieldset {
+    max-height: 50vh;
+    overflow-x: scroll;
 }
 
 .sceneMacrosFlex {
     align-items: center;
     display: flex;
-    gap: 5%;
+    flex: 1 !important;
+    gap: 4px;
     justify-content: flex-end;
+}
+
+.sceneMacrosFlex button {
+    width: 2.5em;
 }
 

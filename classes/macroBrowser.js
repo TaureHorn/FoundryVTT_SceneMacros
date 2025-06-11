@@ -19,12 +19,12 @@ export default class MacroBrowserV2 extends HandlebarsApplicationMixin(Applicati
         id: 'macro-browser_{id}',
         position: {
             height: 'auto',
-            width: window.innerWidth * 0.2
+            width: window.innerWidth * 0.3
         },
         tag: 'form',
         window: {
             icon: 'fas fa-code',
-            resizable: false,
+            resizable: true,
             title: "SCENE_MACROS.macro-browser.title",
         }
     }
