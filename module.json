@@ -1,7 +1,7 @@
 {
     "id": "sceneMacros",
     "title": "Scene Macros",
-    "version": "1.1",
+    "version": "1.2",
     "compatibility": {
         "minimum": "12",
         "verified": "13.345"
@@ -29,6 +29,6 @@
     "styles": [
         "sceneMacros.css"
     ],
-    "download": "https://github.com/TaureHorn/FoundryVTT_SceneMacros/releases/download/v1.1/sceneMacros.zip",
+    "download": "https://github.com/TaureHorn/FoundryVTT_SceneMacros/releases/download/v1.2/sceneMacros.zip",
     "manifest": "https://github.com/TaureHorn/FoundryVTT_SceneMacros/releases/latest/download/module.json"
 }
